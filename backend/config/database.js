@@ -10,7 +10,7 @@ module.exports = {
     typeValidation: true
   },
   production: {
-    use_env_variable: 'postgres://sarinamak_db_user:xxvUlHsRpu9ahyrlgmO7SiWD1hDTGKq2@dpg-cmqbi7021fec739l22h0-a/sarinamak_db'/*'DATABASE_URL'*/,
+    use_env_variable: 'DATABASE_URL',
     dialect: 'postgres',
     seederStorage: 'sequelize',
     dialectOptions: {
