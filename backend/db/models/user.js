@@ -28,8 +28,8 @@ module.exports = (sequelize, DataTypes) => {
             if (Validator.isEmail(value)) {
               throw new Error("Cannot be an email.");
             }
-          }
-        }
+          },
+        },
       },
       hashedPassword: {
         type: DataTypes.STRING.BINARY,
