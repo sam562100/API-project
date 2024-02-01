@@ -14,10 +14,10 @@ const routes = require('./routes');
 
 const app = express();
 
-app.use(morgan('dev'));
+app.use(morgan('dev')); //logs and prints request to terminal
 
-app.use(cookieParser());
-app.use(express.json());
+app.use(cookieParser()); //access CSURF tokens and JWATS
+app.use(express.json()); //allows us to read JSON request bodies
 
 // Security Middleware
 if (!isProduction) {
@@ -47,7 +47,7 @@ app.use(routes); // Connect all the routes
 
 //Phase 2 Error Handling
 // Catch unhandled requests and forward to error handler.
-app.use((_req, _res, next) => {
+app.use((_req, _res, next) => { //handles 404 error and generates the error message
   const err = new Error("The requested resource couldn't be found.");
   err.title = "Resource Not Found";
   err.errors = { message: "The requested resource couldn't be found." };
