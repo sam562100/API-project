@@ -1,45 +1,29 @@
 'use strict';
 
-let options = {};
-if (process.env.NODE_ENV === 'production') {
-  options.schema = process.env.SCHEMA;  // define your schema in options object
-}
+const { options } = require('../../routes/api');
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+    await queryInterface.createTable('ReviewImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
+      reviewId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'Reviews',
           key: 'id'
         },
         onDelete: 'CASCADE'
       },
-      spotId: {
-        type: Sequelize.INTEGER,
+      url: {
+        type: Sequelize.STRING,
         allowNull: false,
-        references: {
-          model: 'Spots',
-          key: 'id',
-        },
-        onDelete: 'CASCADE'
-      },
-      startDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
-      },
-      endDate: {
-        type: Sequelize.DATEONLY,
-        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -54,7 +38,7 @@ module.exports = {
     }, options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Bookings';
-    await queryInterface.dropTable(options, 'Bookings');
+    options.tableName = 'ReviewImages';
+    await queryInterface.dropTable(options, 'ReviewImages');
   }
 };

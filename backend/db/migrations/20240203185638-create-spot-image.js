@@ -8,37 +8,27 @@ if (process.env.NODE_ENV === 'production') {
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+    await queryInterface.createTable('SpotImages', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        },
-        onDelete: 'CASCADE'
-      },
       spotId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Spots',
-          key: 'id',
-        },
-        onDelete: 'CASCADE'
+          key: 'id'
+        }
       },
-      startDate: {
-        type: Sequelize.DATEONLY,
+      url: {
+        type: Sequelize.STRING,
         allowNull: false
       },
-      endDate: {
-        type: Sequelize.DATEONLY,
+      preview: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
       },
       createdAt: {
@@ -51,10 +41,11 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
       }
-    }, options);
+    },
+    options);
   },
   async down(queryInterface, Sequelize) {
-    options.tableName = 'Bookings';
-    await queryInterface.dropTable(options, 'Bookings');
+    options.tableName = 'SpotImages';
+    await queryInterface.dropTable(options, 'SpotImages');
   }
 };

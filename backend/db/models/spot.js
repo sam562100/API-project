@@ -10,7 +10,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Spot.belongsTo(models.User, { as: 'Owner', foreignKey: 'ownerId' })
+      Spot.belongsTo(models.User, { as: 'Owner', foreignKey: 'ownerId' });
+      Spot.hasMany(models.SpotImage, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Review, { foreignKey: 'spotId' });
+      Spot.hasMany(models.Booking, { foreignKey: 'spotId' });
     }
   };
 
@@ -145,14 +148,14 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Price per day is required not null'
+          msg: 'Price per day is required'
         },
         notEmpty: {
-          msg: 'Price per day is required not empty'
+          msg: 'Price per day is required'
         },
         min: {
           args: -1,
-          msg: 'Price per day is required min'
+          msg: 'Price per day is required'
         }
       }
     }
