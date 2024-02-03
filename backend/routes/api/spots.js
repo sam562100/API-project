@@ -6,7 +6,7 @@ const bcrypt = require('bcryptjs'); //2 import bcrypt
 
 
 const { setTokenCookie, restoreUser } = require('../../utils/auth'); //2
-const { User } = require('../../db/models'); //2
+// const { User } = require('../../db/models'); //2
 
 //3. Validating Login Request Body
 const { check } = require('express-validator'); //3
@@ -41,37 +41,42 @@ const testAuthorization = async (req, res, next) => {
 
 //Create a Spot
 router.post(
-    '/',
-    async (req, res) => {
-        const { id: userId } = req.user;
+	'/', requireAuth,
+	async (req, res, next) => {
+		const { id: userId } = req.user;
 
-        const { address, city, state, country, lat, lng, name, description, price } = req.body;
-        const spot = await Spot.create({
-            ownerId: userId,
-            address: address,
-            city: city,
-            state: state,
-            country: country,
-            lat: lat,
-            lng: lng,
-            name: name,
-            description: description,
-            price: price,
-        });
+		const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
-        return res.status(201).json({
-            id: userId,
-            address: address,
-            city: city,
-            state: state,
-            country: country,
-            lat: lat,
-            lng: lng,
-            name: name,
-            description: description,
-            price: price,
-        })
-    }
-)
+		// console.log('Request Body:', req.body);
+
+		const currentDate = new Date();
+
+		try {
+			const spot = await Spot.create({
+				ownerId: userId,
+				address,
+				city,
+				state,
+				country,
+				lat,
+				lng,
+				name,
+				description,
+				price,
+				createdAt: currentDate.toISOString(),
+				updatedAt: currentDate.toISOString(),
+			});
+
+			res.status(201).json(spot);
+		} catch (error) {
+			if (error.name === 'SequelizeValidationError') {
+				const validationErrors = error.errors.map(err => ({ field: err.path, message: err.message }));
+				return res.status(400).json({ title: 'Validation error', message: 'Validation failed', errors: validationErrors });
+			} else {
+				console.error(error);
+				return res.status(500).json({ title: 'Server error', message: 'Internal server error' });
+			}
+		}
+	});
 
 module.exports = router; //1

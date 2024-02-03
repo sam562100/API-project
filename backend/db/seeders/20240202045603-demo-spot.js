@@ -24,7 +24,7 @@ module.exports = {
           "lng": -122.4730327,
           "name": "App Academy",
           "description": "Place where web developers are created",
-          "price": 123,
+          "price": 123
         },
         {
           "ownerId": 2,
@@ -36,7 +36,7 @@ module.exports = {
           "lng": -123.4730327,
           "name": "App Academy",
           "description": "Place where web developers are created",
-          "price": 456,
+          "price": 456
         },
         {
           "ownerId": 3,
@@ -48,13 +48,28 @@ module.exports = {
           "lng": -124.4730327,
           "name": "App Academy",
           "description": "Place where web developers are created",
-          "price": 789,
+          "price": 789
         }
       ], { validate: true })
-    } catch (err) {
-      console.log(err);
-      throw Error(err);
-    }
+    } catch (error) {
+      if (error.name === 'SequelizeBulkRecordError') {
+          const validationErrors = error.errors.map(err => ({
+              index: err.index,
+              message: err.message,
+              fields: err.fields
+          }));
+          console.error(validationErrors);
+          // Handle validation errors appropriately
+      } else {
+          console.error(error);
+          // Handle other errors
+      }
+  }
+
+    // } catch (err) {
+    //   console.log(err);
+    //   throw Error(err);
+    // }
   },
 
   async down (queryInterface, Sequelize) {

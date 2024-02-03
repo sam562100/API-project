@@ -134,7 +134,10 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: {
           msg: 'Description is required'
         },
-        len: [1, 255]
+        len: {
+          args: [1, 255],
+          msg: 'Description is required'
+        }
       }
     },
     price: {
@@ -142,12 +145,15 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         notNull: {
-          msg: 'Price per day is required'
+          msg: 'Price per day is required not null'
         },
         notEmpty: {
-          msg: 'Price per day is required'
+          msg: 'Price per day is required not empty'
         },
-        min: 0
+        min: {
+          args: -1,
+          msg: 'Price per day is required min'
+        }
       }
     }
   }, {
