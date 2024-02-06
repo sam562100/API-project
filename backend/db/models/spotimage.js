@@ -1,7 +1,7 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class SpotImage extends Model {
 
@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
       SpotImage.belongsTo(models.Spot, { foreignKey: 'spotId' });
     }
   }
+
   SpotImage.init({
     spotId: {
       type: DataTypes.INTEGER,

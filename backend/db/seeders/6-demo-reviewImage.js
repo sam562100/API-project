@@ -15,11 +15,11 @@ module.exports = {
       },
       {
         reviewId: 2,
-        url: 'imageurl'
+        url: 'imageur2'
       },
       {
         reviewId: 3,
-        url: 'imageurl'
+        url: 'imageur3'
       }
     ], { validate: true })
   },
