@@ -65,11 +65,11 @@ router.get('/current', requireAuth, async (req, res, next)=> {
     }
 })
 
-//Create Bookings
-router.put('/:bookingId', requireAuth, testAuthorization, async (req, res, next) => {
+//Create Bookings /Edit Bookings
+router.put('/:id', requireAuth, testAuthorization, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const { bookingsId } = req.params;
-    const userId = req.user.id;
+    // const userId = req.user.id;
 
     try {
         const bookingToUpdate = await Booking.findByPk(bookingsId);
