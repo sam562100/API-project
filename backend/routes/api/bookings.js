@@ -11,7 +11,7 @@ const isProduction = environment === "production";
 // Booking Authorization
 const testAuthorization = async (req, res, next) => {
     const { id: userId } = req.user;
-    const { bookingId } = req.params;
+    const { id: bookingId } = req.params;
     const include  = { model: Spot };
 
     try {
@@ -68,11 +68,14 @@ router.get('/current', requireAuth, async (req, res, next)=> {
 //Create Bookings /Edit Bookings
 router.put('/:id', requireAuth, testAuthorization, async (req, res, next) => {
     const { startDate, endDate } = req.body;
-    const { bookingsId } = req.params;
+    const { id : bookingId } = req.params;
+    console.log( " FIND CONSOLE LOG HERE ", id, 'HELP');
+    // const where = { id: bookingId };
     // const userId = req.user.id;
-
     try {
-        const bookingToUpdate = await Booking.findByPk(bookingsId);
+        const bookingToUpdate = await Booking.findByPk( bookingId );
+        console.log( id );
+        console.log( bookingToUpdate );
         if (!bookingToUpdate) {
             return res.status(404).json({ message: "Booking couldn't be found" });
         }
@@ -88,7 +91,7 @@ router.put('/:id', requireAuth, testAuthorization, async (req, res, next) => {
         const otherBookings = await Booking.findAll({
             where: {
                 spotId: bookingToUpdate.spotId,
-                id: { [Sequelize.Op.ne]: bookingsId }
+                id: { [Sequelize.Op.ne]: bookingId }
             }
         });
 
