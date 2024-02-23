@@ -6,11 +6,11 @@ const { requireAuth } = require("../../utils/auth");
 // Middleware ReviewImage authorization
 const testAuthorization = async (req, res, next) => {
     const { id: userId } = req.user;
-    const { reviewImageId } = req.params;
-    const include = { include: Review };
+    const { id: reviewImageId } = req.params;
+    const include = { model: Review };
 
     try {
-        const spotImage = await ReviewImage.findByPk(reviewImageId, include);
+        const spotImage = await ReviewImage.findByPk(reviewImageId, {include});
 
         if (!spotImage) res.status(404).json({ 'message': "Review Image couldn't be found" });
 

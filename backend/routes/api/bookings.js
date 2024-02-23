@@ -16,7 +16,8 @@ const testAuthorization = async (req, res, next) => {
 
     try {
         const mybooking = await Booking.findByPk(bookingId, { include });
-        if (!mybooking ) res.status(404).json({ 'message': "Booking couldn't be found" });
+        console.log(mybooking);
+        if (!mybooking ) return res.status(404).json({ 'message': "Booking couldn't be found" });
 
         const { userId: ownerId } = mybooking;
 
@@ -69,12 +70,12 @@ router.get('/current', requireAuth, async (req, res, next)=> {
 router.put('/:id', requireAuth, testAuthorization, async (req, res, next) => {
     const { startDate, endDate } = req.body;
     const { id : bookingId } = req.params;
-    console.log( " FIND CONSOLE LOG HERE ", id, 'HELP');
+    // console.log( " FIND CONSOLE LOG HERE ", bookingId, 'HELP');
     // const where = { id: bookingId };
     // const userId = req.user.id;
     try {
         const bookingToUpdate = await Booking.findByPk( bookingId );
-        console.log( id );
+        // console.log( id );
         console.log( bookingToUpdate );
         if (!bookingToUpdate) {
             return res.status(404).json({ message: "Booking couldn't be found" });
