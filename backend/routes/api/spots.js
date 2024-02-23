@@ -308,6 +308,7 @@ router.post("/:id/reviews", requireAuth, async (req, res, next) => {
 			res.status(404).json({"message": "Spot couldn't be found"});
 		}
 		return res.status(400), next(err);
+	
     }
 });
 

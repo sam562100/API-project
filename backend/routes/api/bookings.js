@@ -23,7 +23,7 @@ const testAuthorization = async (req, res, next) => {
 
         if (req.method === 'DELETE') {
             const { startDate } = mybooking;
-            const { ownerId: spotOwner } = mybooking.spot;
+            const { ownerId: spotOwner } = mybooking.Spot;
 
             if (new Date(startDate) < new Date()) {
                 throw new Error("Bookings that have been started can't be deleted");
@@ -120,9 +120,9 @@ router.put('/:id', requireAuth, testAuthorization, async (req, res, next) => {
 });
 
 //Delete Booking
-router.delete('/:bookingId', requireAuth, testAuthorization, async (req, res, next) => {
-    const { bookingsId } = req.params;
-    const where = { id: bookingsId };
+router.delete('/:id', requireAuth, testAuthorization, async (req, res, next) => {
+    const { id : bookingId } = req.params;
+    const where = { id: bookingId };
 
     try {
         await Booking.destroy({ where });
